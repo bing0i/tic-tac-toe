@@ -1,0 +1,23 @@
+body {
+    font-family: 'Hanalei Fill', cursive;
+    background-color: #292D3E;
+}
+
+h1 {
+    text-align: center;
+    color: #FFCC00;
+    letter-spacing: 0.1em;
+}
+
+table {
+    margin-left: auto;
+    margin-right: auto;
+    text-align: center;
+}
+
+.square {
+    height: 50px;
+    line-height: 50px;
+    width: 50px;
+    background-color: aliceblue;
+}
