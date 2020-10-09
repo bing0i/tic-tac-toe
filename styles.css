@@ -16,8 +16,15 @@ table {
 }
 
 .square {
-    height: 50px;
-    line-height: 50px;
-    width: 50px;
+    height: 200px;
+    line-height: 200px;
+    width: 200px;
     background-color: aliceblue;
+    font-size: 5em;
+}
+
+#winner {
+    color: #FFCC00;
+    font-size: 5em;
+    text-align: center;
 }
