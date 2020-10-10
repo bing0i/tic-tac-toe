@@ -17,8 +17,7 @@ const gameBoard = (() => {
         o: -100,
         tie: 0
     }
-    const _SIZE = 9;
-    let _board = new Array(_SIZE).fill('');
+    let _board = new Array(9).fill('');
     let _player1 = Player('xx', 'x');
     let _player2 = Player('oo', 'o');
 
@@ -124,8 +123,8 @@ const gameBoard = (() => {
         return -1;
     }
 
-    const humanMove = (position) => {
-        _board[position] = _HUMAN_SYMBOL;
+    const humanMove = (position, symbol) => {
+        _board[position] = symbol;
     }
 
     const getHumanSymbol = () => {
@@ -136,28 +135,50 @@ const gameBoard = (() => {
         return _AI_SYMBOL;
     }
 
+    const getPlayer1Symbol = () => {
+        return _player1.getSymbol();
+    }
+
+    const getPlayer2Symbol = () => {
+        return _player2.getSymbol();
+    }
+
+    const clearBoard = () => {
+        _board = new Array(9).fill('');
+    }
+
     return {
         aiMove,
         humanMove,
         checkWinner,
         getHumanSymbol,
         getAISymbol,
+        getPlayer1Symbol,
+        getPlayer2Symbol,
+        clearBoard,
     }
 })();
 
 const displayController = (() => {
     const _AI_SYMBOL = gameBoard.getAISymbol();
     const _HUMAN_SYMBOL = gameBoard.getHumanSymbol();
+    const _PLAYER1_SYMBOL = gameBoard.getPlayer1Symbol();
+    const _PLAYER2_SYMBOL = gameBoard.getPlayer2Symbol();
     let _squares = Array.from(document.querySelectorAll('.square'));
-    
-    _squares.forEach(square => square.addEventListener('click', () => {
-        updateSquareText(square);
-    }));
+    let player1Turn = true;
 
-    const updateSquareText = (square) => {
-        if (square.textContent.length === 0 && gameBoard.checkWinner() === null) {
-            square.textContent = _HUMAN_SYMBOL;
-            gameBoard.humanMove(square.getAttribute('id'));
+    const runAIMode = () => {
+        _squares.forEach(square => square.addEventListener('click', updateBoardAIMode));
+    }
+
+    const removeAIMode = () => {
+        _squares.forEach(square => square.removeEventListener('click', updateBoardAIMode));
+    }
+
+    const updateBoardAIMode = () => {
+        if (event.target.textContent.length === 0 && gameBoard.checkWinner() === null) {
+            event.target.textContent = _HUMAN_SYMBOL;
+            gameBoard.humanMove(event.target.getAttribute('id'), _HUMAN_SYMBOL);
         } else 
             return;
 
@@ -168,7 +189,60 @@ const displayController = (() => {
         }
     }
 
-    return {
 
+    const runPlayerMode = () => {
+        _squares.forEach(square => square.addEventListener('click', updateBoardPlayerMode));
     }
+
+    const removePlayerMode = () => {
+        _squares.forEach(square => square.removeEventListener('click', updateBoardPlayerMode));
+    }
+
+    const updateBoardPlayerMode = () => {
+        if (event.target.textContent.length === 0 && gameBoard.checkWinner() === null) {
+            let symbol = '';
+            if (player1Turn) {
+                symbol = _PLAYER1_SYMBOL;
+                player1Turn = false;
+            } else {
+                symbol = _PLAYER2_SYMBOL;
+                player1Turn = true;
+            }
+            event.target.textContent = symbol;
+            gameBoard.humanMove(event.target.getAttribute('id'), symbol);
+        } else 
+            return;
+    }
+
+    const clearSquares = () => {
+        _squares.forEach(square => square.textContent = '');
+    }
+
+    return {
+        runAIMode,
+        removeAIMode,
+        runPlayerMode,
+        removePlayerMode,
+        clearSquares,
+    }
+})();
+
+const chooseMode = (() => {
+    let _switchPlayMode = document.querySelector('#toggle');
+    if(_switchPlayMode.checked) {
+        displayController.runAIMode();
+    } else {
+        displayController.runPlayerMode();
+    }
+    _switchPlayMode.addEventListener('change', () => {
+        gameBoard.clearBoard();
+        displayController.clearSquares();
+        if(_switchPlayMode.checked) {
+            displayController.removePlayerMode();
+            displayController.runAIMode();
+        } else {
+            displayController.removeAIMode();
+            displayController.runPlayerMode();
+        }
+    });
 })();
