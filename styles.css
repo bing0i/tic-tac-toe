@@ -1,6 +1,6 @@
 body {
     font-family: 'Hanalei Fill', cursive;
-    background-color: #292D3E;
+    background-color: white;
     overflow: hidden;
 }
 
@@ -17,33 +17,44 @@ table {
 }
 
 .square {
-    height: 200px;
-    line-height: 200px;
-    width: 200px;
+    height: 150px;
+    line-height: 150px;
+    width: 150px;
     background-color: aliceblue;
     font-size: 5em;
 }
 
 #winner {
     color: #FFCC00;
-    font-size: 5em;
+    font-size: 2em;
     text-align: center;
+}
+
+.noselect {
+    -webkit-touch-callout: none; /* iOS Safari */
+      -webkit-user-select: none; /* Safari */
+       -khtml-user-select: none; /* Konqueror HTML */
+         -moz-user-select: none; /* Old versions of Firefox */
+          -ms-user-select: none; /* Internet Explorer/Edge */
+              user-select: none; /* Non-prefixed version, currently
+                                    supported by Chrome, Edge, Opera and Firefox */
 }
 
 .switch { 
     position : relative ;
     display : inline-block;
-    width : 40px;
-    height : 20px;
+    width : 60px;
+    height : 30px;
     background-color: #fa743e;
-    border-radius: 20px;
+    border-radius: 30px;
+    margin: 0 20px 0 20px;
 }
 
 .switch::after {
     content: '';
     position: absolute;
-    width: 18px;
-    height: 18px;
+    width: 28px;
+    height: 28px;
     border-radius: 50%;
     background-color: white;
     top: 1px;
@@ -52,7 +63,7 @@ table {
 }
 
 .checkbox:checked + .switch::after {
-    left : 20px; 
+    left : 30px; 
   }
 
 .checkbox:checked + .switch {
@@ -65,5 +76,41 @@ table {
 
 #switchPlayMode {
     text-align: center;
-    margin: 50px;
+}
+
+.container{
+    text-align: center;
+}
+
+.cross_line{
+    display: inline-block;
+    position: relative;
+    padding: 0.25em 1em;
+    border-top: solid 2px black;
+    border-bottom: solid 2px black;
+    text-decoration: none;
+    font-weight: bold;
+    color: #FFCC00;
+}
+.cross_line:before, .cross_line:after{
+  content: '';
+  position: absolute;
+  top: -7px;
+  width: 2px;
+  height: -webkit-calc(100% + 14px);
+  height: calc(100% + 14px);
+  background-color: black;
+  transition: .3s;
+}
+.cross_line:before {left: 7px;}
+.cross_line:after {right: 7px;}
+.cross_line:hover:before{
+  top: 0px;
+  left:0;
+  height: 100%;
+}
+.cross_line:hover:after{
+  top: 0px;
+  right: 0;
+  height: 100%;
 }

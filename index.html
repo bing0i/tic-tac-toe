@@ -8,14 +8,14 @@
         <link href="https://emoji-css.afeld.me/emoji.css" rel="stylesheet">
     </head>
     <body>
-        <h1>Tic Tac Toe</h1>
-        <div id="switchPlayMode">
+        <h1 class="noselect">Tic Tac Toe</h1>
+        <div id="switchPlayMode" class="noselect">
             <i class="em em-ok_woman" aria-role="presentation" aria-label="FACE WITH OK GESTURE"></i>
             <input type="checkbox" id="toggle" class="checkbox" />
             <label for="toggle" class="switch"></label>
             <i class="em em-robot_face" aria-role="presentation" aria-label="ROBOT FACE"></i>
         </div>
-        <table>
+        <table class="noselect">
            <tr>
                 <td><div class="square" id=0></div></td>
                 <td><div class="square" id=1></div></td>
@@ -32,7 +32,10 @@
                 <td><div class="square" id=8></div></td>
             </tr>
         </table>
-        <p id="winner">weqw</p>
+        <div class="container" class="noselect">
+            <a href="#" id="resetBtn" class="cross_line">Reset</a>
+        </div>
+        <p id="winner" class="noselect">weqw</p>
         <script src="scripts.js"></script>
     </body>
 </html>

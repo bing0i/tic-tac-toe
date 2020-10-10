@@ -51,8 +51,6 @@ const gameBoard = (() => {
             winner = 'tie';
         }
 
-        if (winner !== null)   
-            document.querySelector('#winner').textContent = winner + ' is winner';
         return winner;
     }
 
@@ -159,12 +157,13 @@ const gameBoard = (() => {
     }
 })();
 
-const displayController = (() => {
+const displaySquaresText = (() => {
     const _AI_SYMBOL = gameBoard.getAISymbol();
     const _HUMAN_SYMBOL = gameBoard.getHumanSymbol();
     const _PLAYER1_SYMBOL = gameBoard.getPlayer1Symbol();
     const _PLAYER2_SYMBOL = gameBoard.getPlayer2Symbol();
     let _squares = Array.from(document.querySelectorAll('.square'));
+    let _winner = document.querySelector('#winner'); 
     let player1Turn = true;
 
     const runAIMode = () => {
@@ -176,19 +175,29 @@ const displayController = (() => {
     }
 
     const updateBoardAIMode = () => {
-        if (event.target.textContent.length === 0 && gameBoard.checkWinner() === null) {
+        let winner = gameBoard.checkWinner();
+        if (winner !== null || event.target.textContent.length !== 0) {
+            return;
+        } else {
             event.target.textContent = _HUMAN_SYMBOL;
             gameBoard.humanMove(event.target.getAttribute('id'), _HUMAN_SYMBOL);
-        } else 
-            return;
+        }
 
-        if (gameBoard.checkWinner() === null) {
+        winner = gameBoard.checkWinner();
+        if (winner !== null) {
+            _winner.textContent = winner + ' is winner';
+            return;
+        } else {
             let bestPosition = gameBoard.aiMove();
             if (bestPosition !== -1)
                 _squares[bestPosition].textContent = _AI_SYMBOL;
         }
-    }
 
+        winner = gameBoard.checkWinner();
+        if (winner !== null) {
+            _winner.textContent = winner + ' is winner';
+        }
+    }
 
     const runPlayerMode = () => {
         _squares.forEach(square => square.addEventListener('click', updateBoardPlayerMode));
@@ -199,7 +208,10 @@ const displayController = (() => {
     }
 
     const updateBoardPlayerMode = () => {
-        if (event.target.textContent.length === 0 && gameBoard.checkWinner() === null) {
+        let winner = gameBoard.checkWinner();
+        if (winner !== null || event.target.textContent.length !== 0) {
+            return;
+        } else {
             let symbol = '';
             if (player1Turn) {
                 symbol = _PLAYER1_SYMBOL;
@@ -210,8 +222,12 @@ const displayController = (() => {
             }
             event.target.textContent = symbol;
             gameBoard.humanMove(event.target.getAttribute('id'), symbol);
-        } else 
-            return;
+        } 
+        
+        winner = gameBoard.checkWinner();
+        if (winner !== null) {
+            _winner.textContent = winner + ' is winner';
+        }
     }
 
     const clearSquares = () => {
@@ -227,22 +243,40 @@ const displayController = (() => {
     }
 })();
 
-const chooseMode = (() => {
+const setupGame = (() => {
     let _switchPlayMode = document.querySelector('#toggle');
-    if(_switchPlayMode.checked) {
-        displayController.runAIMode();
-    } else {
-        displayController.runPlayerMode();
-    }
-    _switchPlayMode.addEventListener('change', () => {
-        gameBoard.clearBoard();
-        displayController.clearSquares();
+    let _resetButton = document.querySelector('#resetBtn');
+
+    const initSwitchPlayMode = () => {
         if(_switchPlayMode.checked) {
-            displayController.removePlayerMode();
-            displayController.runAIMode();
+            displaySquaresText.runAIMode();
         } else {
-            displayController.removeAIMode();
-            displayController.runPlayerMode();
+            displaySquaresText.runPlayerMode();
         }
-    });
+        _switchPlayMode.addEventListener('change', resetGame);
+    }
+
+    const resetGame = () => {
+        gameBoard.clearBoard();
+        displaySquaresText.clearSquares();
+        if(_switchPlayMode.checked) {
+            displaySquaresText.removePlayerMode();
+            displaySquaresText.runAIMode();
+        } else {
+            displaySquaresText.removeAIMode();
+            displaySquaresText.runPlayerMode();
+        }
+    }
+
+    const initResetButton = () => {
+        _resetButton.addEventListener('click', resetGame);
+    }
+
+    return {
+        initSwitchPlayMode,
+        initResetButton,
+    }
 })();
+
+setupGame.initSwitchPlayMode();
+setupGame.initResetButton();
