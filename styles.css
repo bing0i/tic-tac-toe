@@ -1,32 +1,65 @@
 body {
-    font-family: 'Hanalei Fill', cursive;
+    font-family: 'Rubik', sans-serif;
     background-color: white;
     overflow: hidden;
 }
 
-h1 {
+#header {
+    font-size: 35px;
     text-align: center;
-    color: #FFCC00;
+    color: #fa743e;
     letter-spacing: 0.1em;
+    margin-top: 30px;
+    margin-bottom: 30px;
+}
+
+#header em {
+    color: #55acee;
+    font-style: normal;
+}
+
+#turn {
+    margin-left: auto;
+    margin-right: auto;    
+    margin-top: 20px;
+    margin-bottom: 20px;
+    text-align: center;
+    background-color: #fa743e; 
+    width: 80px;
+    border-radius: 10px;
 }
 
 table {
+    margin-top: 45px;
+    margin-bottom: 30px;
     margin-left: auto;
     margin-right: auto;
     text-align: center;
+    border: none;
+    border-collapse:collapse
 }
 
 .square {
     height: 150px;
     line-height: 150px;
     width: 150px;
-    background-color: aliceblue;
+    background-color: white;
     font-size: 5em;
 }
 
+.ver {
+    border-left: 3px solid black;
+    border-right: 3px solid black;
+}
+
+.hoz {
+    border-top: 3px solid black;
+    border-bottom: 3px solid black;
+}
+
 #winner {
-    color: #FFCC00;
-    font-size: 2em;
+    color: black;
+    font-size: 1.5em;
     text-align: center;
 }
 
@@ -41,13 +74,13 @@ table {
 }
 
 .switch { 
-    position : relative ;
+    position : relative;
     display : inline-block;
     width : 60px;
     height : 30px;
     background-color: #fa743e;
     border-radius: 30px;
-    margin: 0 20px 0 20px;
+    margin: 0 10px 0 10px;
 }
 
 .switch::after {
@@ -86,11 +119,10 @@ table {
     display: inline-block;
     position: relative;
     padding: 0.25em 1em;
-    border-top: solid 2px black;
-    border-bottom: solid 2px black;
+    border-top: solid 2px #fa743e;
+    border-bottom: solid 2px #fa743e;
     text-decoration: none;
-    font-weight: bold;
-    color: #FFCC00;
+    color: #55acee;
 }
 .cross_line:before, .cross_line:after{
   content: '';
@@ -99,7 +131,7 @@ table {
   width: 2px;
   height: -webkit-calc(100% + 14px);
   height: calc(100% + 14px);
-  background-color: black;
+  background-color: #fa743e;
   transition: .3s;
 }
 .cross_line:before {left: 7px;}
